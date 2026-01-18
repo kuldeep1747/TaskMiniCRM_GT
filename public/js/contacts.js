@@ -58,7 +58,6 @@ function openEditContact(contact) {
 
 
 // 🔹 Delete Contact
-//  Delete Contact via POST (route fixed)
 function deleteContact(id) {
     if(!confirm('Are you sure?')) return;
 
@@ -113,11 +112,9 @@ function openMerge() {
         $('#secondary').append(`<option value="${id}">${name}</option>`);
     });
 
-    // Set defaults: master first checkbox, secondary second
     $('#master').val(checked.eq(0).val());
     $('#secondary').val(checked.eq(1).val());
 
-    // Open modal
     new bootstrap.Modal(document.getElementById('mergeModal')).show();
 }
 window.mergeContacts = function() {
@@ -137,11 +134,10 @@ window.mergeContacts = function() {
             console.log('AJAX success:', res);
             alert(res.message);
 
-            // Close modal
             var modal = bootstrap.Modal.getInstance(document.getElementById('mergeModal'));
             modal.hide();
 
-            // Reload table
+            
             loadContacts();
         },
         error: function (err) {
@@ -155,7 +151,6 @@ window.mergeContacts = function() {
 
 
 
-// 🔹 Initial load
 $(document).ready(function(){
     loadContacts();
 });

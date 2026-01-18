@@ -24,9 +24,7 @@ class MergeController extends Controller
 
             DB::transaction(function () use ($master, $secondary) {
 
-                /* =======================
-                 |  MERGE EMAILS
-                 ======================= */
+               
                 $emails = $master->secondary_emails ?? [];
 
                 if ($secondary->email && $secondary->email !== $master->email) {
@@ -37,9 +35,7 @@ class MergeController extends Controller
 
                 $master->secondary_emails = $emails;
 
-                /* =======================
-                 |  MERGE PHONES
-                 ======================= */
+                
                 $phones = $master->secondary_phones ?? [];
 
                 if ($secondary->phone && $secondary->phone !== $master->phone) {
@@ -50,9 +46,7 @@ class MergeController extends Controller
 
                 $master->secondary_phones = $phones;
 
-                /* =======================
-                 |  MERGE CUSTOM FIELDS
-                 ======================= */
+                
                 foreach ($secondary->customFieldValues ?? [] as $secValue) {
 
                     $masterValue = $master->customFieldValues()
@@ -77,17 +71,13 @@ class MergeController extends Controller
                     }
                 }
 
-                /* =======================
-                 |  UPDATE STATUS & SAVE
-                 ======================= */
+                
                 $secondary->status = 'Merged';
                 $secondary->save();
 
                 $master->save();
 
-                /* =======================
-                 |  MERGE HISTORY
-                 ======================= */
+                
                 ContactMergeHistory::create([
                     'master_contact_id' => $master->id,
                     'merged_contact_id' => $secondary->id,
